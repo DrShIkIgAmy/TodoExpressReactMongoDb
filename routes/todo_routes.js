@@ -5,15 +5,15 @@ const cors = require('cors')
 const router = Router()
 
 
-var corsOptionsDelegate = {origin: "*"};
+var corsOption = {origin: "*"};
 
-router.get('/get_all_todos', cors(corsOptionsDelegate), controllers.GetRetrieveAll);
-router.get('/get_todo', cors(corsOptionsDelegate), controllers.GetRetrieveById);
+router.get('/get_all_todos', cors(corsOption), controllers.GetRetrieveAll);
+router.get('/get_todo', cors(corsOption), controllers.GetRetrieveById);
 
-router.delete('/delete_all', cors(corsOptionsDelegate), controllers.PostRemoveAll);
-router.delete('/delete_todo', cors(corsOptionsDelegate), controllers.PostRemoveById);
+router.delete('/delete_all', cors(corsOption), controllers.PostRemoveAll);
+router.delete('/delete_todo', cors(corsOption), controllers.PostRemoveById);
 
-router.post('/modify_todo', cors(corsOptionsDelegate), controllers.PostModifyById);
-router.post('/add_todo', cors(corsOptionsDelegate), controllers.PostAdd);
+router.post('/modify_todo', cors(corsOption), controllers.PostModifyById);
+router.post('/add_todo', cors(corsOption), controllers.PostAdd);
 
 module.exports = router

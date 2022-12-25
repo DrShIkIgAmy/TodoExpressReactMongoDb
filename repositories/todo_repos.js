@@ -2,6 +2,16 @@ const mongoose = require('mongoose')
 
 const Todo = require('../models/todo_model');
 
+const ModelToObj = (Model) => {
+    return {
+        id: Model.id,
+        title: Model.title,
+        datetime: Model.datetime,
+        completed: Model.completed
+    };
+}
+
+
 const RetrieveTodosById = async (id) => {
     if (!mongoose.isObjectIdOrHexString(id)) {
         throw "Invalid ID";
@@ -10,24 +20,14 @@ const RetrieveTodosById = async (id) => {
     if (!todo) {
         throw "Todo with specified ID not found";
     }
-    return {
-        id: todo.id,
-        title: todo.title,
-        datetime: todo.datetime,
-        completed: todo.completed
-    };
+    return ModelToObj(todo);
 }
 
 const RetrieveTodoAll = async () => {
     const todos = await Todo.find();
     let todo_arr = [];
     todos.forEach((todo) => {
-        todo_arr.push({
-            id: todo.id,
-            title: todo.title,
-            datetime: todo.datetime,
-            completed: todo.completed
-        });
+        todo_arr.push(ModelToObj(todo));
     });
     return todo_arr;
 }
@@ -52,6 +52,7 @@ const ModifyById = async (obj) => {
     todo.datetime = obj.datetime;
     todo.completed = obj.completed;
     todo.save();
+    return ModelToObj(todo);
 }
 
 const Add = async (obj) => {
@@ -61,12 +62,7 @@ const Add = async (obj) => {
         completed: obj.completed
     });
     todo.save();
-    return {
-        id: todo.id,
-        title: todo.title,
-        datetime: todo.datetime,
-        completed: todo.completed
-    };
+    return ModelToObj(todo);
 }
 
 module.exports = {
