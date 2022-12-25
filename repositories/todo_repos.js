@@ -37,10 +37,20 @@ const RemoveAll = async () => {
 }
 
 const RemoveById = async (id) => {
-    return await Todo.remove(id);
+    if (!mongoose.isObjectIdOrHexString(id)) {
+        throw "Invalid ID";
+    }
+    const todo = await Todo.findById(id);
+    if (!todo) {
+        throw "Todo with specified ID not found";
+    }
+    await Todo.remove(todo);
 }
 
 const ModifyById = async (obj) => {
+    if (!obj.hasOwnProperty('id')) {
+        throw "Object does not contain ID";
+    }
     if (!mongoose.isObjectIdOrHexString(obj.id)) {
         throw "Invalid ID";
     }
@@ -48,14 +58,23 @@ const ModifyById = async (obj) => {
     if (!todo) {
         throw "Todo with specified ID not found";
     }
-    todo.title = obj.title;
-    todo.datetime = obj.datetime;
-    todo.completed = obj.completed;
+    if (obj.hasOwnProperty('title')) {
+        todo.title = obj.title;
+    }
+    if (obj.hasOwnProperty('datetime')) {
+        todo.datetime = obj.datetime;
+    }
+    if (obj.hasOwnProperty('completed')) {
+        todo.completed = obj.completed;
+    }
     todo.save();
     return ModelToObj(todo);
 }
 
 const Add = async (obj) => {
+    if (!obj.hasOwnProperty("datetime") || !obj.hasOwnProperty("title")) {
+        throw "Object does not contain title or datetime";
+    }
     const todo = new Todo({
         title: obj.title,
         datetime: obj.datetime,

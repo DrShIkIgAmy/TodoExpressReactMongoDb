@@ -15,6 +15,9 @@ const PostRemoveById = async (req, res) => {
 
 const PostRemoveAll = async (req, res) => {
     try {
+        if (req.key != 'ok_to_removeall') {
+            throw "To removeall you need pass param 'key'='ok_to_removeall'";
+        }
         await Repos.RemoveAll();
         res.statusCode = 200;
         res.send("All todos was removed");
