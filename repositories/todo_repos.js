@@ -43,12 +43,17 @@ const RemoveById = async (id) => {
 }
 
 const ModifyById = async (obj) => {
-    todo = new Todo({
-        title: obj.title,
-        datetime: obj.datetime,
-        description: obj.description,
-        completed: obj.completed
-    });
+    if (!mongoose.isObjectIdOrHexString(obj.id)) {
+        throw "Invalid ID";
+    }
+    const todo = await Todo.findById(obj.id);
+    if (!todo) {
+        throw "Todo with specified ID not found";
+    }
+    todo.title = obj.title;
+    todo.datetime = obj.datetime;
+    todo.description = obj.description;
+    todo.completed = obj.completed;
     todo.save();
 }
 

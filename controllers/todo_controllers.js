@@ -11,6 +11,8 @@ const PostRemoveById = async (req, res) => {
 
 const PostRemoveAll = async (req, res) => {
     Repos.RemoveAll();
+    res.statusCode = 200;
+    res.send("good");
 }
 
 const GetRetrieveById = async (req, res) => {
