@@ -9,10 +9,6 @@ const schema = new Schema({
     type: Date,
     required: true
   },
-  description: {
-    type: String,
-    required: false
-  },
   completed: {
     type: Boolean,
     default: false

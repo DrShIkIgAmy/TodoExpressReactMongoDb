@@ -14,7 +14,6 @@ const RetrieveTodosById = async (id) => {
         id: todo.id,
         title: todo.title,
         datetime: todo.datetime,
-        description: todo.description,
         completed: todo.completed
     };
 }
@@ -27,7 +26,6 @@ const RetrieveTodoAll = async () => {
             id: todo.id,
             title: todo.title,
             datetime: todo.datetime,
-            description: todo.description,
             completed: todo.completed
         });
     });
@@ -52,7 +50,6 @@ const ModifyById = async (obj) => {
     }
     todo.title = obj.title;
     todo.datetime = obj.datetime;
-    todo.description = obj.description;
     todo.completed = obj.completed;
     todo.save();
 }
@@ -61,7 +58,6 @@ const Add = async (obj) => {
     const todo = new Todo({
         title: obj.title,
         datetime: obj.datetime,
-        description: obj.description,
         completed: obj.completed
     });
     todo.save();
@@ -69,7 +65,6 @@ const Add = async (obj) => {
         id: todo.id,
         title: todo.title,
         datetime: todo.datetime,
-        description: todo.description,
         completed: todo.completed
     };
 }

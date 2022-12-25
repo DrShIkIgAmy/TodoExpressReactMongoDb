@@ -2,9 +2,6 @@ const mongoose = require('mongoose')
 const Todo = require('../models/todo_model');
 const Repos = require('../repositories/todo_repos')
 
-
-
-
 const PostRemoveById = async (req, res) => {
     Repos.RemoveById(req.body.id);
 }
@@ -43,7 +40,7 @@ const PostModifyById = async (req, res) => {
 }
 
 const PostAdd = async (req, res) => {
-    const newObj = Repos.Add(req.body);
+    const newObj = await Repos.Add(req.body);
     res.statusCode = 200;
     res.send(newObj);
 }
