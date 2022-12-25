@@ -32,6 +32,8 @@ const GetRetrieveAll = async (req, res) => {
 const PostModifyById = async (req, res) => {
     try {
         Repos.ModifyById(req.body)
+        res.statusCode = 200;
+        res.send("good");
     } catch (err_msg) {
         res.statusCode = 400;
         res.send(err_msg);
@@ -39,8 +41,9 @@ const PostModifyById = async (req, res) => {
 }
 
 const PostAdd = async (req, res) => {
-    Repos.Add(req.body);
-    res.send("Good");
+    const newObj = Repos.Add(req.body);
+    res.statusCode = 200;
+    res.send(newObj);
 }
 
 module.exports = {

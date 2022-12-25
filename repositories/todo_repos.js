@@ -43,18 +43,30 @@ const RemoveById = async (id) => {
 }
 
 const ModifyById = async (obj) => {
-    // todo = new Todo({
-    //     title = obj.title,
-    //     datetime = obj.datetime,
-    //     description = obj.description,
-    //     completed = obj.completed
-    // });
+    todo = new Todo({
+        title: obj.title,
+        datetime: obj.datetime,
+        description: obj.description,
+        completed: obj.completed
+    });
+    todo.save();
 }
 
 const Add = async (obj) => {
-    const model_obj = new Todo(obj);
-    model_obj.save();
-    console.log(obj);
+    const todo = new Todo({
+        title: obj.title,
+        datetime: obj.datetime,
+        description: obj.description,
+        completed: obj.completed
+    });
+    todo.save();
+    return {
+        id: todo.id,
+        title: todo.title,
+        datetime: todo.datetime,
+        description: todo.description,
+        completed: todo.completed
+    };
 }
 
 module.exports = {
