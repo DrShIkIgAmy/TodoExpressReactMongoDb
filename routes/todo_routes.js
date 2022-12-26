@@ -16,15 +16,15 @@ const log_func = (req, res, next)=> {
   next();
 }
 
-router.options('*', cors(corsOptionsDelegate));
-router.post('/add_todo', cors(corsOptionsDelegate), controllers.PostAdd);
-router.get('/get_all_todos', cors(corsOptionsDelegate), controllers.GetRetrieveAll);
+router.options('*', log_func, cors(corsOptionsDelegate));
+router.post('/add_todo', cors(corsOptionsDelegate), log_func, controllers.PostAdd);
+router.get('/get_all_todos', cors(corsOptionsDelegate), log_func, controllers.GetRetrieveAll);
 router.get('/get_todo', cors(corsOptionsDelegate), log_func, controllers.GetRetrieveById);
 
-router.delete('/delete_all', cors(corsOptionsDelegate), controllers.PostRemoveAll);
-router.delete('/delete_todo', cors(corsOptionsDelegate), controllers.PostRemoveById);
+router.delete('/delete_all', cors(corsOptionsDelegate), log_func, controllers.PostRemoveAll);
+router.delete('/delete_todo', cors(corsOptionsDelegate), log_func, controllers.PostRemoveById);
 
-router.post('/modify_todo', cors(corsOptionsDelegate), controllers.PostModifyById);
+router.post('/modify_todo', cors(corsOptionsDelegate), log_func, controllers.PostModifyById);
 
 
 module.exports = router
