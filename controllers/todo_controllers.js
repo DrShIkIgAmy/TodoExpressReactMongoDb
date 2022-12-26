@@ -2,14 +2,20 @@ const mongoose = require('mongoose')
 const Todo = require('../models/todo_model');
 const Repos = require('../repositories/todo_repos')
 
+const strReturn = (msg) => {
+    return {
+        status: msg
+    };
+}
+
 const PostRemoveById = async (req, res) => {
     try{
         await Repos.RemoveById(req.body.id);
         res.statusCode = 200;
-        res.send("Todo was removed");
+        res.send(strReturn("Todo was removed"));
     } catch (err_msg) {
         res.statusCode = 400;
-        res.send(err_msg);
+        res.send(strReturn(err_msg));
     }
 }
 
@@ -20,10 +26,10 @@ const PostRemoveAll = async (req, res) => {
         }
         await Repos.RemoveAll();
         res.statusCode = 200;
-        res.send("All todos was removed");
+        res.send(strReturn("All todos was removed"));
     } catch (err_msg) {
         res.statusCode = 400;
-        res.send(err_msg);
+        res.send(strReturn(err_msg));
     }
 }
 
@@ -33,7 +39,7 @@ const GetRetrieveById = async (req, res) => {
         res.send(TodoInst);
     } catch (err_msg) {
         res.statusCode = 400;
-        res.send(err_msg);
+        res.send(strReturn(err_msg));
     }
 }
 
@@ -47,18 +53,18 @@ const GetRetrieveAll = async (req, res) => {
         res.send(TodoList);
     } catch (err_msg) {
         res.statusCode = 400;
-        res.send(err_msg);
+        res.send(strReturn(err_msg));
     }
 }
 
 const PostModifyById = async (req, res) => {
     try {
-        await Repos.ModifyById(req.body)
+        const todo = await Repos.ModifyById(req.body)
         res.statusCode = 200;
-        res.send("Todo");
+        res.send(todo);
     } catch (err_msg) {
         res.statusCode = 400;
-        res.send(err_msg);
+        res.send(strReturn(err_msg));
     }
 }
 
@@ -69,7 +75,7 @@ const PostAdd = async (req, res) => {
         res.send(newObj);
     } catch (err_msg) {
         res.statusCode = 400;
-        res.send(err_msg);
+        res.send(strReturn(err_msg));
     }
 }
 
