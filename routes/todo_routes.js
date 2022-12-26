@@ -11,8 +11,8 @@ var corsOptionsDelegate = {
 };
 
 const log_func = (req, res, next)=> {
-  console.log('Received request');
-  console.log(req);
+  console.log('Received request with body');
+  console.log(req.body);
   next();
 }
 
