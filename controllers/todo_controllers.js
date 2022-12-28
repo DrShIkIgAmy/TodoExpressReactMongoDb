@@ -21,7 +21,7 @@ const PostRemoveById = async (req, res) => {
 
 const PostRemoveAll = async (req, res) => {
     try {
-        if (req.key != 'ok_to_removeall') {
+        if (req.body.key != 'ok_to_removeall') {
             throw "To removeall you need pass param 'key'='ok_to_removeall'";
         }
         await Repos.RemoveAll();

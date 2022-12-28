@@ -1,22 +1,24 @@
-const mongoose = require('mongoose')
+const todoRepos = require('../db_connection')
 
 const Todo = require('../models/todo_model');
+
+console.log("Intered todo_repos");
 
 const ModelToObj = (Model) => {
     return {
         id: Model.id,
         title: Model.title,
-        datetime: Model.datetime,
+        datetime: Date(Model.datetime),
         completed: Model.completed
     };
 }
 
 
 const RetrieveTodosById = async (id) => {
-    if (!mongoose.isObjectIdOrHexString(id)) {
-        throw "Invalid ID";
-    }
-    const todo = await Todo.findById(id);
+    const repos = await todoRepos;
+    const todo = await repos.findOneBy({
+        id: id
+    });
     if (!todo) {
         throw "Todo with specified ID not found";
     }
@@ -24,7 +26,8 @@ const RetrieveTodosById = async (id) => {
 }
 
 const RetrieveTodoAll = async () => {
-    const todos = await Todo.find();
+    const repos = await todoRepos;
+    const todos = await repos.find();
     let todo_arr = [];
     todos.forEach((todo) => {
         todo_arr.push(ModelToObj(todo));
@@ -33,28 +36,30 @@ const RetrieveTodoAll = async () => {
 }
 
 const RemoveAll = async () => {
+    const repos = await todoRepos;
+    await repos.clear();
     return await Todo.remove();
 }
 
 const RemoveById = async (id) => {
-    if (!mongoose.isObjectIdOrHexString(id)) {
-        throw "Invalid ID";
-    }
-    const todo = await Todo.findById(id);
+    const repos = await todoRepos;
+    const todo = await repos.findOneBy({
+        id: id
+    });
     if (!todo) {
         throw "Todo with specified ID not found";
     }
-    await Todo.remove(todo);
+    await repos.remove(todo);
 }
 
 const ModifyById = async (obj) => {
     if (!obj.hasOwnProperty('id')) {
         throw "Object does not contain ID";
     }
-    if (!mongoose.isObjectIdOrHexString(obj.id)) {
-        throw "Invalid ID";
-    }
-    const todo = await Todo.findById(obj.id);
+    const repos = await todoRepos;
+    const todo = await repos.findOneBy({
+        id: id
+    });
     if (!todo) {
         throw "Todo with specified ID not found";
     }
@@ -62,12 +67,12 @@ const ModifyById = async (obj) => {
         todo.title = obj.title;
     }
     if (obj.hasOwnProperty('datetime')) {
-        todo.datetime = obj.datetime;
+        todo.datetime = (new Date(obj.datetime)).toLocaleString();
     }
     if (obj.hasOwnProperty('completed')) {
         todo.completed = obj.completed;
     }
-    todo.save();
+    await repos.save(todo);
     return ModelToObj(todo);
 }
 
@@ -75,13 +80,14 @@ const Add = async (obj) => {
     if (!obj.hasOwnProperty("datetime") || !obj.hasOwnProperty("title")) {
         throw "Object does not contain title or datetime";
     }
-    const todo = new Todo({
+    const repos = await todoRepos;
+    const todo = {
         title: obj.title,
-        datetime: obj.datetime,
+        datetime: (new Date(obj.datetime)).toLocaleString(),
         completed: obj.completed
-    });
-    todo.save();
-    return ModelToObj(todo);
+    };
+    const ret_obj = await repos.save(todo);
+    return ModelToObj(ret_obj);
 }
 
 module.exports = {

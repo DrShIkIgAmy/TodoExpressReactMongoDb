@@ -1,18 +1,18 @@
-const { Schema, model } = require('mongoose')
+const EntitySchema = require("typeorm").EntitySchema; // import {EntitySchema} from "typeorm";
 
-const schema = new Schema({
-  title: {
-    type: String,
-    required: true
-  },
-  datetime: {
-    type: Date,
-    required: true
-  },
-  completed: {
-    type: Boolean,
-    default: false
-  }
-})
-
-module.exports = model('Todo', schema)
+module.exports = new EntitySchema({
+    name: "Todo",
+    columns: {
+        id: {
+            primary: true,
+            type: "int",
+            generated: true
+        },
+        title: {
+            type: "varchar"
+        },
+        datetime: {
+            type: "varchar"
+        }
+    }
+});
